@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-3.xsd"
+        default-menu-title="Remove Role">
+
+    <parameter name="personId"/>
+
+    <transition name="removeRole">
+        <service-call name="durion.hr.DurHrServices.remove#RoleFromPerson"/>
+        <default-response url="."/>
+    </transition>
+
+    <actions>
+        <entity-find-one entity-name="durion.hr.DurHrPerson" value-field="person"/>
+        <entity-find entity-name="durion.hr.DurHrPersonRole" list="assignedRoleList">
+            <econdition field-name="personId" from="personId"/>
+            <econdition field-name="thruDate" operator="is-null" or-null="true"/>
+        </entity-find>
+    </actions>
+
+    <widgets>
+        <container>
+            <label text="Remove Role from ${person.firstName} ${person.lastName}" type="h2"/>
+            
+            <form-list name="RemoveRolesList" list="assignedRoleList" transition="removeRole">
+                <field name="personRoleId"><default-field><hidden/></default-field></field>
+                <field name="roleId"><default-field>
+                    <display-entity entity-name="durion.hr.DurHrRole" text="${roleName}"/>
+                </default-field></field>
+                <field name="fromDate"><default-field><display format="yyyy-MM-dd"/></default-field></field>
+                <field name="removeButton"><default-field title="">
+                    <submit text="Remove"/>
+                </default-field></field>
+            </form-list>
+        </container>
+    </widgets>
+
+</screen>

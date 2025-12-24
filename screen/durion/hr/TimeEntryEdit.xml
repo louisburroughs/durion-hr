@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-3.xsd"
+        default-menu-title="Edit Time Entry">
+
+    <parameter name="timeEntryId" required="true"/>
+
+    <transition name="updateTimeEntry">
+        <service-call name="durion.hr.DurHrServices.update#TimeEntry"/>
+        <default-response url="."/>
+    </transition>
+
+    <actions>
+        <entity-find-one entity-name="durion.hr.DurHrTimeEntry" value-field="timeEntry"/>
+    </actions>
+
+    <widgets>
+        <container>
+            <label text="Edit Time Entry" type="h2"/>
+            
+            <form-single name="EditTimeEntryForm" transition="updateTimeEntry" map="timeEntry">
+                <field name="timeEntryId"><default-field><hidden/></default-field></field>
+                <field name="clockInTime"><default-field><date-time/></default-field></field>
+                <field name="clockOutTime"><default-field><date-time/></default-field></field>
+                <field name="hoursWorked"><default-field><text-line/></default-field></field>
+                <field name="breakMinutes"><default-field><text-line/></default-field></field>
+                <field name="overtimeHours"><default-field><text-line/></default-field></field>
+                <field name="status"><default-field>
+                    <drop-down>
+                        <option key="draft" text="Draft"/>
+                        <option key="submitted" text="Submitted"/>
+                        <option key="approved" text="Approved"/>
+                    </drop-down>
+                </default-field></field>
+                <field name="notes"><default-field><text-area rows="3"/></default-field></field>
+                <field name="submitButton"><default-field title="Update Entry">
+                    <submit/>
+                </default-field></field>
+            </form-single>
+        </container>
+    </widgets>
+
+</screen>

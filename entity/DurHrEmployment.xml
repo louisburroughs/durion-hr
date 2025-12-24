@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-3.xsd">
+    
+    <entity entity-name="DurHrEmployment" package="durion.hr">
+        <field name="employmentId" type="id" is-pk="true"/>
+        <field name="personId" type="id"/>
+        <field name="employmentType" type="text-short"/>
+        <field name="departmentId" type="id"/>
+        <field name="positionTitle" type="text-medium"/>
+        <field name="supervisorId" type="id"/>
+        <field name="startDate" type="date"/>
+        <field name="endDate" type="date"/>
+        <field name="salaryAmount" type="currency-amount"/>
+        <field name="hourlyRate" type="currency-amount"/>
+        <field name="payFrequency" type="text-short"/>
+        <field name="status" type="text-short"/>
+        <relationship type="one" related="durion.hr.DurHrPerson" short-alias="person"/>
+        <relationship type="one" title="Supervisor" related="durion.hr.DurHrPerson" short-alias="supervisor">
+            <key-map field-name="supervisorId" related="personId"/>
+        </relationship>
+    </entity>
+
+</entities>

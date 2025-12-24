@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-3.xsd"
+        default-menu-title="Edit Person">
+
+    <parameter name="personId" required="true"/>
+
+    <transition name="updatePerson">
+        <service-call name="durion.hr.DurHrServices.update#Person"/>
+        <default-response url="."/>
+    </transition>
+
+    <actions>
+        <entity-find-one entity-name="durion.hr.DurHrPerson" value-field="person"/>
+    </actions>
+
+    <widgets>
+        <container>
+            <label text="Edit Person: ${person.firstName} ${person.lastName}" type="h2"/>
+            
+            <form-single name="EditPersonForm" transition="updatePerson" map="person">
+                <field name="personId"><default-field><hidden/></default-field></field>
+                <field name="firstName"><default-field><text-line/></default-field></field>
+                <field name="lastName"><default-field><text-line/></default-field></field>
+                <field name="middleName"><default-field><text-line/></default-field></field>
+                <field name="email"><default-field><text-line/></default-field></field>
+                <field name="phoneNumber"><default-field><text-line/></default-field></field>
+                <field name="address1"><default-field><text-line/></default-field></field>
+                <field name="city"><default-field><text-line/></default-field></field>
+                <field name="stateProvince"><default-field><text-line/></default-field></field>
+                <field name="postalCode"><default-field><text-line/></default-field></field>
+                <field name="isActive"><default-field>
+                    <drop-down><option key="Y" text="Active"/><option key="N" text="Inactive"/></drop-down>
+                </default-field></field>
+                <field name="submitButton"><default-field title="Update Person">
+                    <submit/>
+                </default-field></field>
+            </form-single>
+        </container>
+    </widgets>
+
+</screen>

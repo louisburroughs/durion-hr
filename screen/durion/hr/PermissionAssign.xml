@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-3.xsd"
+        default-menu-title="Assign Permission">
+
+    <parameter name="roleId"/>
+
+    <transition name="assignPermission">
+        <service-call name="durion.hr.DurHrServices.assign#PermissionToRole"/>
+        <default-response url="."/>
+    </transition>
+
+    <actions>
+        <entity-find-one entity-name="durion.hr.DurHrRole" value-field="role"/>
+        <entity-find entity-name="durion.hr.DurHrPermission" list="permissionList">
+            <econdition field-name="isActive" value="Y"/>
+        </entity-find>
+        <entity-find entity-name="durion.hr.DurHrRolePermission" list="assignedPermissionList">
+            <econdition field-name="roleId" from="roleId"/>
+            <econdition field-name="thruDate" operator="is-null" or-null="true"/>
+        </entity-find>
+    </actions>
+
+    <widgets>
+        <container>
+            <label text="Assign Permission to ${role.roleName}" type="h2"/>
+            
+            <form-single name="AssignPermissionForm" transition="assignPermission">
+                <field name="roleId"><default-field><hidden/></default-field></field>
+                <field name="permissionId"><default-field>
+                    <drop-down>
+                        <list-options list="permissionList" key="${permissionId}" text="${permissionName}"/>
+                    </drop-down>
+                </default-field></field>
+                <field name="submitButton"><default-field title="Assign Permission">
+                    <submit/>
+                </default-field></field>
+            </form-single>
+
+            <container-box>
+                <box-header title="Current Permissions"/>
+                <box-body>
+                    <form-list name="AssignedPermissionsList" list="assignedPermissionList">
+                        <field name="permissionId"><default-field>
+                            <display-entity entity-name="durion.hr.DurHrPermission" text="${permissionName}"/>
+                        </default-field></field>
+                        <field name="fromDate"><default-field><display format="yyyy-MM-dd"/></default-field></field>
+                    </form-list>
+                </box-body>
+            </container-box>
+        </container>
+    </widgets>
+
+</screen>

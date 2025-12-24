@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+
+    <!-- Person Services -->
+    <service verb="create" noun="Person" type="inline">
+        <in-parameters>
+            <parameter name="firstName" required="true"/>
+            <parameter name="lastName" required="true"/>
+            <parameter name="middleName"/>
+            <parameter name="email"/>
+            <parameter name="phoneNumber"/>
+            <parameter name="dateOfBirth" type="Date"/>
+            <parameter name="hireDate" type="Date"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="personId"/>
+        </out-parameters>
+        <actions>
+            <service-call name="create#durion.hr.DurHrPerson" in-map="context" out-map="context"/>
+        </actions>
+    </service>
+
+    <service verb="update" noun="Person" type="inline">
+        <in-parameters>
+            <parameter name="personId" required="true"/>
+            <parameter name="firstName"/>
+            <parameter name="lastName"/>
+            <parameter name="email"/>
+            <parameter name="phoneNumber"/>
+            <parameter name="isActive"/>
+        </in-parameters>
+        <actions>
+            <service-call name="update#durion.hr.DurHrPerson" in-map="context"/>
+        </actions>
+    </service>
+
+    <!-- Role Services -->
+    <service verb="assign" noun="RoleToPerson" type="inline">
+        <in-parameters>
+            <parameter name="personId" required="true"/>
+            <parameter name="roleId" required="true"/>
+            <parameter name="fromDate" type="Timestamp" default="ec.user.nowTimestamp"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="personRoleId"/>
+        </out-parameters>
+        <actions>
+            <service-call name="create#durion.hr.DurHrPersonRole" in-map="context" out-map="context"/>
+        </actions>
+    </service>
+
+    <service verb="remove" noun="RoleFromPerson" type="inline">
+        <in-parameters>
+            <parameter name="personRoleId" required="true"/>
+            <parameter name="thruDate" type="Timestamp" default="ec.user.nowTimestamp"/>
+        </in-parameters>
+        <actions>
+            <entity-find-one entity-name="durion.hr.DurHrPersonRole" value-field="personRole"/>
+            <set field="personRole.thruDate" from="thruDate"/>
+            <entity-update value-field="personRole"/>
+        </actions>
+    </service>
+
+    <!-- Permission Services -->
+    <service verb="assign" noun="PermissionToRole" type="inline">
+        <in-parameters>
+            <parameter name="roleId" required="true"/>
+            <parameter name="permissionId" required="true"/>
+            <parameter name="fromDate" type="Timestamp" default="ec.user.nowTimestamp"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="rolePermissionId"/>
+        </out-parameters>
+        <actions>
+            <service-call name="create#durion.hr.DurHrRolePermission" in-map="context" out-map="context"/>
+        </actions>
+    </service>
+
+    <service verb="remove" noun="PermissionFromRole" type="inline">
+        <in-parameters>
+            <parameter name="rolePermissionId" required="true"/>
+            <parameter name="thruDate" type="Timestamp" default="ec.user.nowTimestamp"/>
+        </in-parameters>
+        <actions>
+            <entity-find-one entity-name="durion.hr.DurHrRolePermission" value-field="rolePermission"/>
+            <set field="rolePermission.thruDate" from="thruDate"/>
+            <entity-update value-field="rolePermission"/>
+        </actions>
+    </service>
+
+    <!-- Time Entry Services -->
+    <service verb="create" noun="TimeEntry" type="inline">
+        <in-parameters>
+            <parameter name="personId" required="true"/>
+            <parameter name="workDate" type="Date" required="true"/>
+            <parameter name="clockInTime" type="Timestamp"/>
+            <parameter name="clockOutTime" type="Timestamp"/>
+            <parameter name="hoursWorked" type="BigDecimal"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="timeEntryId"/>
+        </out-parameters>
+        <actions>
+            <service-call name="create#durion.hr.DurHrTimeEntry" in-map="context" out-map="context"/>
+        </actions>
+    </service>
+
+    <service verb="update" noun="TimeEntry" type="inline">
+        <in-parameters>
+            <parameter name="timeEntryId" required="true"/>
+            <parameter name="clockInTime" type="Timestamp"/>
+            <parameter name="clockOutTime" type="Timestamp"/>
+            <parameter name="hoursWorked" type="BigDecimal"/>
+            <parameter name="status"/>
+        </in-parameters>
+        <actions>
+            <service-call name="update#durion.hr.DurHrTimeEntry" in-map="context"/>
+        </actions>
+    </service>
+
+    <!-- Timesheet Services -->
+    <service verb="submit" noun="Timesheet" type="script"
+             location="component://durion-hr/script/groovy/DurHrServices.groovy#submitTimesheet">
+        <in-parameters>
+            <parameter name="timesheetId" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="success" type="Boolean"/>
+        </out-parameters>
+    </service>
+
+    <service verb="approve" noun="Timesheet" type="script"
+             location="component://durion-hr/script/groovy/DurHrServices.groovy#approveTimesheet">
+        <in-parameters>
+            <parameter name="timesheetId" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="success" type="Boolean"/>
+        </out-parameters>
+    </service>
+
+</services>

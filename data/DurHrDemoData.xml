@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-facade-xml type="seed-initial">
+    <!-- Demo data for durion-hr component -->
+    
+    <!-- Sample Roles -->
+    <durion.hr.DurHrRole roleId="ROLE-001" roleName="Manager" 
+                          description="Management role with full permissions" isActive="Y"/>
+    <durion.hr.DurHrRole roleId="ROLE-002" roleName="Employee" 
+                          description="Standard employee role" isActive="Y"/>
+    <durion.hr.DurHrRole roleId="ROLE-003" roleName="Technician" 
+                          description="Service technician role" isActive="Y"/>
+    
+    <!-- Sample Permissions -->
+    <durion.hr.DurHrPermission permissionId="PERM-001" permissionName="Approve Timesheets" 
+                                description="Can approve employee timesheets" 
+                                permissionType="timesheet" isActive="Y"/>
+    <durion.hr.DurHrPermission permissionId="PERM-002" permissionName="Manage Employees" 
+                                description="Can create and edit employee records" 
+                                permissionType="person" isActive="Y"/>
+    <durion.hr.DurHrPermission permissionId="PERM-003" permissionName="View Reports" 
+                                description="Can view HR reports" 
+                                permissionType="report" isActive="Y"/>
+    
+    <!-- Sample Role-Permission Assignments -->
+    <durion.hr.DurHrRolePermission rolePermissionId="RP-001" roleId="ROLE-001" 
+                                    permissionId="PERM-001" 
+                                    fromDate="2025-01-01 00:00:00"/>
+    <durion.hr.DurHrRolePermission rolePermissionId="RP-002" roleId="ROLE-001" 
+                                    permissionId="PERM-002" 
+                                    fromDate="2025-01-01 00:00:00"/>
+    <durion.hr.DurHrRolePermission rolePermissionId="RP-003" roleId="ROLE-001" 
+                                    permissionId="PERM-003" 
+                                    fromDate="2025-01-01 00:00:00"/>
+    
+    <!-- Sample Person -->
+    <durion.hr.DurHrPerson personId="PERSON-001" firstName="John" lastName="Smith" 
+                            email="john.smith@example.com" phoneNumber="555-0100"
+                            dateOfBirth="1985-05-15" hireDate="2020-03-01" 
+                            address1="123 Main St" city="Springfield" 
+                            stateProvince="IL" postalCode="62701" 
+                            country="USA" isActive="Y"/>
+    
+    <!-- Sample Person Role Assignment -->
+    <durion.hr.DurHrPersonRole personRoleId="PR-001" personId="PERSON-001" 
+                                roleId="ROLE-001" 
+                                fromDate="2020-03-01 00:00:00"/>
+    
+    <!-- Sample Employment Record -->
+    <durion.hr.DurHrEmployment employmentId="EMP-001" personId="PERSON-001" 
+                                employmentType="full-time" positionTitle="Service Manager"
+                                startDate="2020-03-01" salaryAmount="75000" 
+                                payFrequency="biweekly" status="active"/>
+    
+    <!-- Sample Holidays -->
+    <durion.hr.DurHrHoliday holidayId="HOL-001" holidayName="New Year's Day" 
+                             holidayDate="2026-01-01" 
+                             description="New Year's Day holiday" 
+                             isRecurring="Y" isPaid="Y"/>
+    <durion.hr.DurHrHoliday holidayId="HOL-002" holidayName="Independence Day" 
+                             holidayDate="2026-07-04" 
+                             description="Independence Day holiday" 
+                             isRecurring="Y" isPaid="Y"/>
+    <durion.hr.DurHrHoliday holidayId="HOL-003" holidayName="Christmas Day" 
+                             holidayDate="2025-12-25" 
+                             description="Christmas Day holiday" 
+                             isRecurring="Y" isPaid="Y"/>
+    
+</entity-facade-xml>

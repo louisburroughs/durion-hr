@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-3.xsd"
+        default-menu-title="Remove Permission">
+
+    <parameter name="roleId"/>
+
+    <transition name="removePermission">
+        <service-call name="durion.hr.DurHrServices.remove#PermissionFromRole"/>
+        <default-response url="."/>
+    </transition>
+
+    <actions>
+        <entity-find-one entity-name="durion.hr.DurHrRole" value-field="role"/>
+        <entity-find entity-name="durion.hr.DurHrRolePermission" list="assignedPermissionList">
+            <econdition field-name="roleId" from="roleId"/>
+            <econdition field-name="thruDate" operator="is-null" or-null="true"/>
+        </entity-find>
+    </actions>
+
+    <widgets>
+        <container>
+            <label text="Remove Permission from ${role.roleName}" type="h2"/>
+            
+            <form-list name="RemovePermissionsList" list="assignedPermissionList" transition="removePermission">
+                <field name="rolePermissionId"><default-field><hidden/></default-field></field>
+                <field name="permissionId"><default-field>
+                    <display-entity entity-name="durion.hr.DurHrPermission" text="${permissionName}"/>
+                </default-field></field>
+                <field name="fromDate"><default-field><display format="yyyy-MM-dd"/></default-field></field>
+                <field name="removeButton"><default-field title="">
+                    <submit text="Remove"/>
+                </default-field></field>
+            </form-list>
+        </container>
+    </widgets>
+
+</screen>

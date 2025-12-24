@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-3.xsd">
+    
+    <entity entity-name="DurHrHoliday" package="durion.hr">
+        <field name="holidayId" type="id" is-pk="true"/>
+        <field name="holidayName" type="text-medium"/>
+        <field name="holidayDate" type="date"/>
+        <field name="description" type="text-long"/>
+        <field name="isRecurring" type="text-indicator"/>
+        <field name="isPaid" type="text-indicator"/>
+    </entity>
+
+</entities>

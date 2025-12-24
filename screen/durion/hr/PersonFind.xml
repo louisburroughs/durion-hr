@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-3.xsd"
+        default-menu-title="Find Person">
+
+    <transition name="editPerson">
+        <default-response url="../PersonEdit"/>
+    </transition>
+
+    <actions>
+        <entity-find entity-name="durion.hr.DurHrPerson" list="personList">
+            <search-form-inputs default-order-by="lastName,firstName"/>
+        </entity-find>
+    </actions>
+
+    <widgets>
+        <container>
+            <label text="Find Person" type="h2"/>
+            
+            <form-list name="PersonList" list="personList">
+                <field name="personId"><default-field><display/></default-field></field>
+                <field name="firstName"><default-field><display/></default-field></field>
+                <field name="lastName"><default-field><display/></default-field></field>
+                <field name="email"><default-field><display/></default-field></field>
+                <field name="phoneNumber"><default-field><display/></default-field></field>
+                <field name="hireDate"><default-field><display format="yyyy-MM-dd"/></default-field></field>
+                <field name="isActive"><default-field><display/></default-field></field>
+                <field name="editLink"><default-field title="">
+                    <link url="editPerson" text="Edit" parameter-map="[personId: personId]"/>
+                </default-field></field>
+            </form-list>
+        </container>
+    </widgets>
+
+</screen>

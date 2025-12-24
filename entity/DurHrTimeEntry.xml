@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-3.xsd">
+    
+    <entity entity-name="DurHrTimeEntry" package="durion.hr">
+        <field name="timeEntryId" type="id" is-pk="true"/>
+        <field name="personId" type="id"/>
+        <field name="timesheetId" type="id"/>
+        <field name="workDate" type="date"/>
+        <field name="clockInTime" type="date-time"/>
+        <field name="clockOutTime" type="date-time"/>
+        <field name="hoursWorked" type="number-decimal"/>
+        <field name="breakMinutes" type="number-integer"/>
+        <field name="overtimeHours" type="number-decimal"/>
+        <field name="timeEntryType" type="text-short"/>
+        <field name="status" type="text-short"/>
+        <field name="notes" type="text-long"/>
+        <relationship type="one" related="durion.hr.DurHrPerson" short-alias="person"/>
+        <relationship type="one" related="durion.hr.DurHrTimesheet" short-alias="timesheet"/>
+    </entity>
+
+</entities>

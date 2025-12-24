@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-3.xsd"
+        default-menu-title="Schedule View">
+
+    <actions>
+        <set field="today" from="ec.user.nowTimestamp"/>
+        <entity-find entity-name="durion.hr.DurHrPerson" list="personList">
+            <econdition field-name="isActive" value="Y"/>
+        </entity-find>
+        <entity-find entity-name="durion.hr.DurHrHoliday" list="holidayList">
+            <econdition field-name="holidayDate" operator="greater-equals" from="today"/>
+            <order-by field-name="holidayDate"/>
+        </entity-find>
+    </actions>
+
+    <widgets>
+        <container>
+            <label text="Employee Schedule" type="h2"/>
+            
+            <container-box>
+                <box-header title="Active Employees"/>
+                <box-body>
+                    <form-list name="PersonList" list="personList">
+                        <field name="personId"><default-field><display/></default-field></field>
+                        <field name="firstName"><default-field><display/></default-field></field>
+                        <field name="lastName"><default-field><display/></default-field></field>
+                        <field name="email"><default-field><display/></default-field></field>
+                        <field name="phoneNumber"><default-field><display/></default-field></field>
+                    </form-list>
+                </box-body>
+            </container-box>
+
+            <container-box>
+                <box-header title="Upcoming Holidays"/>
+                <box-body>
+                    <form-list name="HolidayList" list="holidayList">
+                        <field name="holidayDate"><default-field><display format="yyyy-MM-dd"/></default-field></field>
+                        <field name="holidayName"><default-field><display/></default-field></field>
+                        <field name="isPaid"><default-field><display/></default-field></field>
+                    </form-list>
+                </box-body>
+            </container-box>
+        </container>
+    </widgets>
+
+</screen>
